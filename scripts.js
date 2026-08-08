@@ -13,18 +13,39 @@ document.addEventListener('DOMContentLoaded', function () {
     document.documentElement.classList.toggle('dark');
   });
 
-  // LGPD Banner
+  // LGPD Banner + carregamento condicionado do Google Tag Manager
   const lgpdBanner = document.getElementById('lgpd-banner');
   const acceptBtn = document.getElementById('accept-cookies');
   const closeBtn = document.getElementById('close-lgpd');
+  const CONSENT_KEY = 'lgpd-consent';
 
-  acceptBtn.addEventListener('click', () => lgpdBanner.style.display = 'none');
-  closeBtn.addEventListener('click', () => lgpdBanner.style.display = 'none');
+  function loadGTM() {
+    if (window.__gtmLoaded) return;
+    window.__gtmLoaded = true;
 
-  // Inicialização do Google Tag Manager (consentimento LGPD)
-  if (closeBtn.dataset.gtm === 'true') {
     window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+
+    const gtmScript = document.createElement('script');
+    gtmScript.async = true;
+    gtmScript.src = 'https://www.googletagmanager.com/gtm.js?id=' + config.gtm.id;
+    document.head.appendChild(gtmScript);
   }
+
+  // Se o usuário já aceitou em uma visita anterior, carrega o GTM direto e não mostra o banner
+  if (localStorage.getItem(CONSENT_KEY) === 'accepted') {
+    loadGTM();
+    lgpdBanner.style.display = 'none';
+  }
+
+  acceptBtn.addEventListener('click', () => {
+    localStorage.setItem(CONSENT_KEY, 'accepted');
+    loadGTM();
+    lgpdBanner.style.display = 'none';
+  });
+
+  // Fechar sem aceitar: esconde o banner mas NÃO carrega o GTM
+  closeBtn.addEventListener('click', () => lgpdBanner.style.display = 'none');
 
   // Mobile Menu Toggle
   const mobileMenuBtn = document.getElementById('mobile-menu-btn');
@@ -72,6 +93,7 @@ document.addEventListener('DOMContentLoaded', function () {
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
       const targetId = this.getAttribute('href');
+      if (!targetId || targetId.length <= 1) return; // ignora href="#" puro (ex.: botões de WhatsApp)
       const targetElement = document.querySelector(targetId);
       if (targetElement) {
         e.preventDefault();
@@ -111,15 +133,6 @@ document.addEventListener('DOMContentLoaded', function () {
       .replace(/javascript:/gi, '')
       .replace(/on\w+="[^"]*"/g, '')
       .trim();
-  }
-
-  // Config da CSP dinâmica (exemplo de implementação)
-  if (document.querySelector('meta[name="csp-nonce"]')) {
-    const nonce = document.querySelector('meta[name="csp-nonce"]').getAttribute('content');
-    const styleTag = document.querySelector('style');
-    if (styleTag && nonce) {
-      styleTag.setAttribute('nonce', nonce);
-    }
   }
 
   // Ano dinâmico no rodapé

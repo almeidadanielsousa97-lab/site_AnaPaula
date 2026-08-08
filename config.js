@@ -11,6 +11,9 @@ const config = {
     linkedin: "#",
     youtube: "#"
   },
+  gtm: {
+    id: "GTM-XXXXXX" // TODO: substituir pelo ID real do Google Tag Manager
+  },
   therapyAreas: [
     { name: "Ansiedade", description: "Transtornos de ansiedade generalizada e crises de pânico.", icon: "icon-brain" },
     { name: "Depressão", description: "Processamento de luto, baixa autoestima e ideação suicida.", icon: "icon-heart" },
