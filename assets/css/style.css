@@ -1,0 +1,124 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Variáveis customizadas para o tema — Azul (confiança/calma) + Amarelo (esperança/clareza) */
+/* Formato "R G B" (sem vírgulas) para permitir modificadores de opacidade do Tailwind, ex: bg-gold-accent/15 */
+:root {
+  --primary-bg-rgb: 14 42 71;        /* #0E2A47 */
+  --primary-text-rgb: 251 246 234;   /* #FBF6EA */
+  --secondary-text-rgb: 185 203 220; /* #B9CBDC */
+  --accent-rgb: 28 76 124;           /* #1C4C7C */
+  --gold-accent-rgb: 244 183 64;     /* #F4B740 */
+  --surface-rgb: 251 246 234;        /* #FBF6EA */
+  --surface-text-rgb: 22 50 79;      /* #16324F */
+  --card-shadow: 0 10px 25px -5px rgb(14 42 71 / 0.15), 0 8px 10px -6px rgb(14 42 71 / 0.1);
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.dark {
+  --primary-bg-rgb: 8 26 46;         /* #081A2E */
+  --primary-text-rgb: 251 246 234;   /* #FBF6EA */
+  --secondary-text-rgb: 159 180 199; /* #9FB4C7 */
+  --accent-rgb: 22 61 100;           /* #163D64 */
+  --gold-accent-rgb: 244 183 64;     /* #F4B740 */
+  --surface-rgb: 18 35 58;           /* #12233A */
+  --surface-text-rgb: 239 230 210;   /* #EFE6D2 */
+}
+
+/* Estilos customizados */
+body {
+  scroll-behavior: smooth;
+  font-family: 'Manrope', sans-serif;
+}
+
+h1, h2, h3 {
+  font-family: 'Fraunces', serif;
+}
+
+.eyebrow {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+}
+
+.hero-bg {
+  background: radial-gradient(120% 140% at 78% 12%, rgb(var(--accent-rgb)) 0%, rgb(var(--primary-bg-rgb)) 55%, #081A2E 100%);
+}
+
+.btn-cta {
+  @apply inline-flex items-center gap-2 bg-gold-accent text-primary-bg px-6 py-3 rounded-full font-bold hover:opacity-90 transition-opacity shadow-lg;
+}
+
+.link-safe {
+  @apply hover:text-gold-accent transition-colors;
+}
+
+@media (max-width: 768px) {
+  .hero-content {
+    @apply grid-cols-1 gap-8;
+  }
+  .card-service {
+    @apply rounded-xl shadow-sm p-4;
+  }
+}
+
+/* Botão WhatsApp Personalizado */
+.whatsapp-btn {
+  background: linear-gradient(135deg, #F4B740 0%, #F0932F 100%);
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+/* Efeito de brilho ao passar o mouse */
+.whatsapp-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent);
+  transition: 0.5s;
+  z-index: -1;
+}
+
+.whatsapp-btn:hover::before {
+  left: 100%;
+}
+
+/* Animação de Pulso para chamar atenção */
+@media (prefers-reduced-motion: no-preference) {
+  .whatsapp-btn {
+    animation: pulse-gold 2.4s infinite;
+  }
+}
+
+@keyframes pulse-gold {
+  0% {
+    box-shadow: 0 0 0 0 rgba(244, 183, 64, 0.5);
+  }
+  70% {
+    box-shadow: 0 0 0 14px rgba(244, 183, 64, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(244, 183, 64, 0);
+  }
+}
+
+/* Botão do footer: sólido, sem pulso, para não poluir visualmente */
+#footer-whatsapp:hover {
+  filter: brightness(0.95);
+}
+
+/* Foco visível para acessibilidade de teclado */
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid rgb(var(--gold-accent-rgb));
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .whatsapp-btn { animation: none; }
+  * { transition-duration: 0.01ms !important; }
+}
