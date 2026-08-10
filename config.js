@@ -2,7 +2,7 @@ const config = {
   psychologist: {
     name: "Ana Paula Aragão",
     crp: "11/25724",
-    whatsappLink: "https://wa.me/5521999999999?text=Ol%C3%A1%2C+gostaria+de+marcar+uma+sess%C3%A3o.",
+    whatsappLink: "https://wa.me/5585999782952?text=Ol%C3%A1%2C+gostaria+de+marcar+uma+sess%C3%A3o.",
     email: "anapalaso@icloud.com",
     address: "Atendimento Online e Presencial"
   },
